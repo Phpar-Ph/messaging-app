@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useAuthStore } from "../store/useAuthStore";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Loader } from "lucide-react";
 import { Link } from "react-router";
 
 const SignUp = () => {
@@ -13,13 +13,14 @@ const SignUp = () => {
   });
 
   const handleSubmit = (e) => {
-    e.prevertDefault();
+    e.preventDefault();
     signup(formData);
   };
 
   return (
     <div className="w-full h-screen flex items-center justify-center">
       <div>
+        <h1>Sign Up</h1>
         <form onSubmit={handleSubmit}>
           {/* Username */}
           <div>
@@ -44,7 +45,6 @@ const SignUp = () => {
                 type="name"
                 required
                 placeholder="Username"
-                pattern="[A-Za-z][A-Za-z0-9\-]*"
                 value={formData.fullName}
                 onChange={(e) =>
                   setFormData({ ...formData, fullName: e.target.value })
@@ -120,7 +120,7 @@ const SignUp = () => {
                 required
                 placeholder="Password"
                 pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
+                title="Must be more than 8 characters"
                 value={formData.password}
                 onChange={(e) =>
                   setFormData({ ...formData, password: e.target.value })
@@ -141,7 +141,7 @@ const SignUp = () => {
               {showPassword ? <EyeOff /> : <Eye />}
             </button>
           </div>
-          <button className="btn btn-primary">
+          <button type="submit" className="btn btn-primary" disabled={isSignUp}>
             {isSignUp ? (
               <>
                 <Loader className="size-5 animate-spin" />

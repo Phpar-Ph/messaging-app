@@ -15,7 +15,7 @@ function App() {
     checkAuth();
   }, [checkAuth]);
 
-  console.log({ authUser });
+  console.log("AUth:", { authUser });
 
   if (isCheckingAuth && !authUser)
     return (
