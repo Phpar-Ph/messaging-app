@@ -7,29 +7,23 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import { app, server } from "../src/config/socket.js";
 import path from "path";
+
 dotenv.config();
-
-const PORT = process.env.PORT;
 connectDB();
-const __dirname = path.resolve();
-app.use(cookieParser());
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-    credentials: true,
-  })
-);
+const PORT = process.env.PORT;
 
+const __dirname = path.resolve();
 app.use(express.json());
+app.use(cookieParser());
+
 app.use("/api/auth", authRouter);
 app.use("/api/messages", messageRouter);
+
+
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
   app.get("*", (req, res) => {
-    if (/\/:($|\/)/.test(req.url)) {
-      return res.status(400).send("Malformed URL: missing parameter name.");
-    }
     res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
   });
 }
