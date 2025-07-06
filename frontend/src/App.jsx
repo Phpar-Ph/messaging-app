@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from "react-router";
 import NavBar from "./components/NavBar";
 import Home from "./pages/Home";
-import SignUp from "./pages/signUp";
+import SignUp from "./pages/SignUp";
 import Settings from "./pages/Settings";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
