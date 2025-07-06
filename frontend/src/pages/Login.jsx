@@ -17,13 +17,16 @@ const Login = () => {
   };
 
   return (
-    <div className="w-full h-screen flex items-center justify-center">
-      <div>
-        <h1>LogIn</h1>
-        <form onSubmit={handleSubmit}>
+    <div className="min-h-screen flex items-center justify-center bg-base-100">
+      <div className="w-full max-w-md  bg-base-200 rounded-xl shadow-lg p-8">
+        <h1 className="text-2xl font-bold mb-6 text-center">Sign In</h1>
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-5 flex flex-col items-center"
+        >
           {/* email input */}
-          <div>
-            <label className="input validator">
+          <div className="w-full">
+            <label className="  input input-bordered flex items-center gap-2 w-full">
               <svg
                 className="h-[1em] opacity-50"
                 xmlns="http://www.w3.org/2000/svg"
@@ -42,6 +45,7 @@ const Login = () => {
               </svg>
               <input
                 type="email"
+                className="grow bg-transparent outline-none"
                 placeholder="mail@site.com"
                 required
                 value={formData.email}
@@ -50,13 +54,13 @@ const Login = () => {
                 }
               />
             </label>
-            <div className="validator-hint hidden">
+            <div className="validator-hint hidden text-xs text-error mt-1">
               Enter valid email address
             </div>
           </div>
           {/* password */}
-          <div>
-            <label className="input validator">
+          <div className="relative w-full">
+            <label className="input input-bordered flex items-center gap-2 w-full">
               <svg
                 className="h-[1em] opacity-50"
                 xmlns="http://www.w3.org/2000/svg"
@@ -80,6 +84,7 @@ const Login = () => {
               </svg>
               <input
                 type={showPassword ? "text" : "password"}
+                className="grow bg-transparent outline-none"
                 required
                 placeholder="Password"
                 pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
@@ -89,40 +94,49 @@ const Login = () => {
                   setFormData({ ...formData, password: e.target.value })
                 }
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="ml-2 text-base-content/70 hover:text-base-content"
+                tabIndex={-1}
+              >
+                {showPassword ? <EyeOff /> : <Eye />}
+              </button>
             </label>
-            <p className="validator-hint hidden">
+            <p className="validator-hint hidden text-xs text-error mt-1">
               Must be more than 8 characters, including
               <br />
               At least one number <br />
               At least one lowercase letter <br />
               At least one uppercase letter
             </p>
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              {showPassword ? <EyeOff /> : <Eye />}
-            </button>
           </div>
           <button
             type="submit"
-            className="btn btn-primary"
+            className="btn btn-primary w-full"
             disabled={isLoggingIn}
           >
             {isLoggingIn ? (
               <>
-                <Loader className="size-5 animate-spin" />
+                <Loader className="size-5 animate-spin mr-2" />
                 Loading...
               </>
             ) : (
-              "Create Account"
+              "Sign In"
             )}
           </button>
         </form>
         {/* already have an account link */}
-        <div>
-          <p>Already have an account? </p>
-          <Link to="/signup">Sign Up</Link>
+        <div className="mt-6 text-center">
+          <span className="text-sm text-base-content/70">
+            Don't have an account?{" "}
+          </span>
+          <Link
+            to="/signup"
+            className="text-primary font-medium hover:underline"
+          >
+            Sign Up
+          </Link>
         </div>
       </div>
     </div>

@@ -5,10 +5,13 @@ import dotenv from "dotenv";
 import { connectDB } from "./config/db.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import { app, server } from "../src/config/socket.js";
+import path from "path";
 dotenv.config();
-const app = express();
+
 const PORT = process.env.PORT;
 connectDB();
+const __dirname = path.resolve()
 app.use(cookieParser());
 app.use(
   cors({
@@ -19,8 +22,16 @@ app.use(
 
 app.use(express.json());
 app.use("/api/auth", authRouter);
-app.use("/api/message", messageRouter);
+app.use("/api/messages", messageRouter);
+if(process.env.NODE_ENV==="production"){
+  app.use(express.static(path.join(__dirname,"../frontend/dist")))
 
-app.listen(PORT, () => {
+  app.get("*",(req,res)=>{
+    res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"))
+  })
+}
+
+
+server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
