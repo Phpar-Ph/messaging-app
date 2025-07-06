@@ -11,7 +11,7 @@ dotenv.config();
 
 const PORT = process.env.PORT;
 connectDB();
-const __dirname = path.resolve()
+const __dirname = path.resolve();
 app.use(cookieParser());
 app.use(
   cors({
@@ -23,14 +23,16 @@ app.use(
 app.use(express.json());
 app.use("/api/auth", authRouter);
 app.use("/api/messages", messageRouter);
-if(process.env.NODE_ENV==="production"){
-  app.use(express.static(path.join(__dirname,"../frontend/dist")))
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
-  app.get("*",(req,res)=>{
-    res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"))
-  })
+  app.get("*", (req, res) => {
+    if (/\/:($|\/)/.test(req.url)) {
+      return res.status(400).send("Malformed URL: missing parameter name.");
+    }
+    res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
+  });
 }
-
 
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
